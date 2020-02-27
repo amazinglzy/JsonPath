@@ -136,26 +136,26 @@ public abstract class PathToken {
         }
     }
 
-    PathToken prev(){
+    public PathToken prev(){
         return prev;
     }
 
-    PathToken next() {
+    public PathToken next() {
         if (isLeaf()) {
             throw new IllegalStateException("Current path token is a leaf");
         }
         return next;
     }
 
-    boolean isLeaf() {
+    public boolean isLeaf() {
         return next == null;
     }
 
-    boolean isRoot() {
+    public boolean isRoot() {
         return  prev == null;
     }
 
-    boolean isUpstreamDefinite() {
+    public boolean isUpstreamDefinite() {
         if (upstreamDefinite == null) {
             upstreamDefinite = isRoot() || prev.isTokenDefinite() && prev.isUpstreamDefinite();
         }

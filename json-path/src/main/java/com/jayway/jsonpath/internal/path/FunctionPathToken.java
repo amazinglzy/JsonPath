@@ -4,6 +4,7 @@ import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.function.Parameter;
 import com.jayway.jsonpath.internal.function.PathFunction;
 import com.jayway.jsonpath.internal.function.PathFunctionFactory;
+import com.jayway.jsonpath.internal.path.evaluate.FunctionPathTokenEvaluator;
 
 import java.util.List;
 
@@ -33,33 +34,12 @@ public class FunctionPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
-        PathFunction pathFunction = PathFunctionFactory.newFunction(functionName);
-        evaluateParameters(currentPath, parent, model, ctx);
-        Object result = pathFunction.invoke(currentPath, parent, model, ctx, functionParams);
-        ctx.addResult(currentPath + "." + functionName, parent, result);
-        if (!isLeaf()) {
-            next().evaluate(currentPath, parent, result, ctx);
-        }
-    }
-
-    private void evaluateParameters(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
-
-        if (null != functionParams) {
-            for (Parameter param : functionParams) {
-                if (!param.hasEvaluated()) {
-                    switch (param.getType()) {
-                        case PATH:
-                            param.setCachedValue(param.getPath().evaluate(ctx.rootDocument(), ctx.rootDocument(), ctx.configuration()).getValue());
-                            param.setEvaluated(true);
-                            break;
-                        case JSON:
-                            param.setCachedValue(ctx.configuration().jsonProvider().parse(param.getJson()));
-                            param.setEvaluated(true);
-                            break;
-                    }
-                }
-            }
-        }
+        new FunctionPathTokenEvaluator(this).evaluate(
+                currentPath,
+                parent,
+                model,
+                ctx
+        );
     }
 
     /**
@@ -78,5 +58,11 @@ public class FunctionPathToken extends PathToken {
         return "." + pathFragment;
     }
 
+    public String getFunctionName() {
+        return functionName;
+    }
 
+    public List<Parameter> getFunctionParams() {
+        return functionParams;
+    }
 }
