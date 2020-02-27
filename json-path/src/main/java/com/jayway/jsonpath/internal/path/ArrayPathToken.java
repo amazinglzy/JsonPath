@@ -17,6 +17,7 @@ package com.jayway.jsonpath.internal.path;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
+import com.jayway.jsonpath.internal.path.evaluate.ArrayPathTokenEvaluator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,14 +45,12 @@ public class ArrayPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
-        if (! checkArrayModel(currentPath, model, ctx))
-            return;
-        if(arraySliceOperation != null){
-            evaluateSliceOperation(currentPath, parent, model, ctx);
-        } else {
-            evaluateIndexOperation(currentPath, parent, model, ctx);
-        }
-
+        new ArrayPathTokenEvaluator(this).evaluate(
+                currentPath,
+                parent,
+                model,
+                ctx
+        );
     }
 
     public void evaluateIndexOperation(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
@@ -169,7 +168,7 @@ public class ArrayPathToken extends PathToken {
      * @throws PathNotFoundException if model is null and evaluation must be interrupted
      * @throws InvalidPathException if model is not an array and evaluation must be interrupted
      */
-    protected boolean checkArrayModel(String currentPath, Object model, EvaluationContextImpl ctx) {
+    public boolean checkArrayModel(String currentPath, Object model, EvaluationContextImpl ctx) {
         if (model == null){
             if (! isUpstreamDefinite()) {
                 return false;
@@ -185,5 +184,13 @@ public class ArrayPathToken extends PathToken {
             }
         }
         return true;
+    }
+
+    public ArraySliceOperation getArraySliceOperation() {
+        return arraySliceOperation;
+    }
+
+    public ArrayIndexOperation getArrayIndexOperation() {
+        return arrayIndexOperation;
     }
 }
