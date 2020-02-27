@@ -18,6 +18,7 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.Predicate;
 import com.jayway.jsonpath.internal.PathRef;
+import com.jayway.jsonpath.internal.path.evaluate.PredicatePathTokenEvaluator;
 
 import java.util.Collection;
 
@@ -42,32 +43,15 @@ public class PredicatePathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef ref, Object model, EvaluationContextImpl ctx) {
-        if (ctx.jsonProvider().isMap(model)) {
-            if (accept(model, ctx.rootDocument(), ctx.configuration(), ctx)) {
-                PathRef op = ctx.forUpdate() ? ref : PathRef.NO_OP;
-                if (isLeaf()) {
-                    ctx.addResult(currentPath, op, model);
-                } else {
-                    next().evaluate(currentPath, op, model, ctx);
-                }
-            }
-        } else if (ctx.jsonProvider().isArray(model)){
-            int idx = 0;
-            Iterable<?> objects = ctx.jsonProvider().toIterable(model);
-
-            for (Object idxModel : objects) {
-                if (accept(idxModel, ctx.rootDocument(),  ctx.configuration(), ctx)) {
-                    handleArrayIndex(idx, currentPath, model, ctx);
-                }
-                idx++;
-            }
-        } else {
-            if (isUpstreamDefinite()) {
-                throw new InvalidPathException(format("Filter: %s can not be applied to primitives. Current context is: %s", toString(), model));
-            }
-        }
+        new PredicatePathTokenEvaluator(this).evaluate(
+                currentPath,
+                ref,
+                model,
+                ctx
+        );
     }
 
+    @Deprecated
     public boolean accept(final Object obj, final Object root, final Configuration configuration, EvaluationContextImpl evaluationContext) {
         Predicate.PredicateContext ctx = new PredicateContextImpl(obj, root, configuration, evaluationContext.documentEvalCache());
 
@@ -102,6 +86,7 @@ public class PredicatePathToken extends PathToken {
         return false;
     }
 
-
-
+    public Collection<Predicate> getPredicates() {
+        return predicates;
+    }
 }

@@ -36,7 +36,7 @@ public abstract class PathToken {
         return next;
     }
 
-    void handleObjectProperty(String currentPath, Object model, EvaluationContextImpl ctx, List<String> properties) {
+    public void handleObjectProperty(String currentPath, Object model, EvaluationContextImpl ctx, List<String> properties) {
 
         if(properties.size() == 1) {
             String property = properties.get(0);
@@ -122,7 +122,7 @@ public abstract class PathToken {
     }
 
 
-    protected void handleArrayIndex(int index, String currentPath, Object model, EvaluationContextImpl ctx) {
+    public void handleArrayIndex(int index, String currentPath, Object model, EvaluationContextImpl ctx) {
         String evalPath = Utils.concat(currentPath, "[", String.valueOf(index), "]");
         PathRef pathRef = ctx.forUpdate() ? PathRef.create(model, index) : PathRef.NO_OP;
         try {
