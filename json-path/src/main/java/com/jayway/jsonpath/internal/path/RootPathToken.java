@@ -15,6 +15,7 @@
 package com.jayway.jsonpath.internal.path;
 
 import com.jayway.jsonpath.internal.PathRef;
+import com.jayway.jsonpath.internal.path.evaluate.RootPathTokenEvaluator;
 
 /**
  *
@@ -27,7 +28,7 @@ public class RootPathToken extends PathToken {
 
 
     RootPathToken(char rootToken) {
-        this.rootToken = Character.toString(rootToken);;
+        this.rootToken = Character.toString(rootToken);
         this.tail = this;
         this.tokenCount = 1;
     }
@@ -55,12 +56,14 @@ public class RootPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef pathRef, Object model, EvaluationContextImpl ctx) {
-        if (isLeaf()) {
-            PathRef op = ctx.forUpdate() ?  pathRef : PathRef.NO_OP;
-            ctx.addResult(rootToken, op, model);
-        } else {
-            next().evaluate(rootToken, pathRef, model, ctx);
-        }
+//        if (isLeaf()) {
+//            PathRef op = ctx.forUpdate() ?  pathRef : PathRef.NO_OP;
+//            ctx.addResult(rootToken, op, model);
+//        } else {
+//            next().evaluate(rootToken, pathRef, model, ctx);
+//        }
+        new RootPathTokenEvaluator(this).evaluate(
+                currentPath, pathRef, model, ctx);
     }
 
     @Override
@@ -75,5 +78,9 @@ public class RootPathToken extends PathToken {
 
     public boolean isFunctionPath() {
         return (tail instanceof FunctionPathToken);
+    }
+
+    public String getRootToken() {
+        return rootToken;
     }
 }
