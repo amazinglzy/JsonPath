@@ -16,6 +16,7 @@ package com.jayway.jsonpath.internal.path;
 
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.internal.PathRef;
+import com.jayway.jsonpath.internal.path.evaluate.ScanPathTokenEvaluator;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
 import java.util.Collection;
@@ -31,9 +32,8 @@ public class ScanPathToken extends PathToken {
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
 
-        PathToken pt = next();
-
-        walk(pt, currentPath, parent,  model, ctx, createScanPredicate(pt, ctx));
+        new ScanPathTokenEvaluator(this).evaluate(
+                currentPath, parent, model, ctx);
     }
 
     public static void walk(PathToken pt, String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx, Predicate predicate) {
@@ -86,7 +86,7 @@ public class ScanPathToken extends PathToken {
         }
     }
 
-    private static Predicate createScanPredicate(final PathToken target, final EvaluationContextImpl ctx) {
+    public static Predicate createScanPredicate(final PathToken target, final EvaluationContextImpl ctx) {
         if (target instanceof PropertyPathToken) {
             return new PropertyPathTokenPredicate(target, ctx);
         } else if (target instanceof ArrayPathToken) {
