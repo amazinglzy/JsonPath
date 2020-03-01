@@ -1,7 +1,7 @@
 apply plugin: 'com.github.johnrengelman.shadow'
 apply plugin: 'application'
 
-displayName = "JsonPath Test Bench"
+//displayName = "JsonPath Test Bench"
 
 description = "Web app that compares different JsonPath implementations."
 

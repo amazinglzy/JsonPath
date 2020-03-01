@@ -21,6 +21,7 @@ import com.jayway.jsonpath.internal.Path;
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.Utils;
 import com.jayway.jsonpath.internal.path.PathCompiler;
+import com.jayway.jsonpath.internal.path.evaluate.TreeTravelEvaluator;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
 import java.io.File;
@@ -178,13 +179,14 @@ public class JsonPath {
                 if(optAsPathList || optAlwaysReturnList){
                     throw new JsonPathException("Options " + AS_PATH_LIST + " and " + ALWAYS_RETURN_LIST + " are not allowed when using path functions!");
                 }
-                return path.evaluate(jsonObject, jsonObject, configuration).getValue(true);
-
+//                return path.evaluate(jsonObject, jsonObject, configuration).getValue(true);
+                return new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration).getValue(true);
             } else if(optAsPathList){
-                return  (T)path.evaluate(jsonObject, jsonObject, configuration).getPath();
-
+//                return  (T)path.evaluate(jsonObject, jsonObject, configuration).getPath();
+                return (T)(new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration).getPath());
             } else {
-                Object res = path.evaluate(jsonObject, jsonObject, configuration).getValue(false);
+//                Object res = path.evaluate(jsonObject, jsonObject, configuration).getValue(false);
+                Object res = new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration).getValue(false);
                 if(optAlwaysReturnList && path.isDefinite()){
                     Object array = configuration.jsonProvider().createArray();
                     configuration.jsonProvider().setArrayIndex(array, 0, res);
@@ -221,7 +223,8 @@ public class JsonPath {
     public <T> T set(Object jsonObject, Object newVal, Configuration configuration) {
         notNull(jsonObject, "json can not be null");
         notNull(configuration, "configuration can not be null");
-        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+//        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+        EvaluationContext evaluationContext = new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration, true);
         for (PathRef updateOperation : evaluationContext.updateOperations()) {
             updateOperation.set(newVal, configuration);
         }
@@ -241,7 +244,8 @@ public class JsonPath {
         notNull(jsonObject, "json can not be null");
         notNull(configuration, "configuration can not be null");
         notNull(mapFunction, "mapFunction can not be null");
-        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+//        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+        EvaluationContext evaluationContext = new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration, true);
         for (PathRef updateOperation : evaluationContext.updateOperations()) {
             updateOperation.convert(mapFunction, configuration);
         }
@@ -259,7 +263,8 @@ public class JsonPath {
     public <T> T delete(Object jsonObject, Configuration configuration) {
         notNull(jsonObject, "json can not be null");
         notNull(configuration, "configuration can not be null");
-        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+//        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+        EvaluationContext evaluationContext = new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration, true);
         for (PathRef updateOperation : evaluationContext.updateOperations()) {
             updateOperation.delete(configuration);
         }
@@ -278,7 +283,8 @@ public class JsonPath {
     public <T> T add(Object jsonObject, Object value, Configuration configuration) {
         notNull(jsonObject, "json can not be null");
         notNull(configuration, "configuration can not be null");
-        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+//        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+        EvaluationContext evaluationContext = new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration, true);
         for (PathRef updateOperation : evaluationContext.updateOperations()) {
             updateOperation.add(value, configuration);
         }
@@ -299,7 +305,8 @@ public class JsonPath {
         notNull(jsonObject, "json can not be null");
         notEmpty(key, "key can not be null or empty");
         notNull(configuration, "configuration can not be null");
-        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+//        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+        EvaluationContext evaluationContext = new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration, true);
         for (PathRef updateOperation : evaluationContext.updateOperations()) {
             updateOperation.put(key, value, configuration);
         }
@@ -310,7 +317,8 @@ public class JsonPath {
         notNull(jsonObject, "json can not be null");
         notEmpty(newKeyName, "newKeyName can not be null or empty");
         notNull(configuration, "configuration can not be null");
-        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+//        EvaluationContext evaluationContext = path.evaluate(jsonObject, jsonObject, configuration, true);
+        EvaluationContext evaluationContext = new TreeTravelEvaluator(path).evaluate(jsonObject, jsonObject, configuration, true);
         for (PathRef updateOperation : evaluationContext.updateOperations()) {
             updateOperation.renameKey(oldKeyName, newKeyName, configuration);
         }
