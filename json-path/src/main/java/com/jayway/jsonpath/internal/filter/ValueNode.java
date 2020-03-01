@@ -10,6 +10,7 @@ import com.jayway.jsonpath.internal.Path;
 import com.jayway.jsonpath.internal.Utils;
 import com.jayway.jsonpath.internal.path.PathCompiler;
 import com.jayway.jsonpath.internal.path.PredicateContextImpl;
+import com.jayway.jsonpath.internal.path.evaluate.TreeTravelEvaluator;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -808,7 +809,8 @@ public abstract class ValueNode {
             Configuration c = Configuration.builder().jsonProvider(ctx.configuration().jsonProvider()).options(Option.REQUIRE_PROPERTIES).build();
             if (isExistsCheck()) {
                 try {
-                    Object result = path.evaluate(ctx.item(), ctx.root(), c).getValue(false);
+//                    Object result = path.evaluate(ctx.item(), ctx.root(), c).getValue(false);
+                    Object result = new TreeTravelEvaluator(path).evaluate(ctx.item(), ctx.root(), c).getValue(false);
                     return result == JsonProvider.UNDEFINED ? ValueNode.FALSE : ValueNode.TRUE;
                 } catch (PathNotFoundException e) {
                     return ValueNode.FALSE;
@@ -822,7 +824,7 @@ public abstract class ValueNode {
                         res = ctxi.evaluate(path);
                     } else {
                         Object doc = path.isRootPath() ? ctx.root() : ctx.item();
-                        res = path.evaluate(doc, ctx.root(), ctx.configuration()).getValue();
+                        res = new TreeTravelEvaluator(path).evaluate(doc, ctx.root(), ctx.configuration()).getValue();
                     }
                     res = ctx.configuration().jsonProvider().unwrap(res);
 

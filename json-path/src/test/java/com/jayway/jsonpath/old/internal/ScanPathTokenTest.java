@@ -2,6 +2,7 @@ package com.jayway.jsonpath.old.internal;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.internal.path.PathCompiler;
+import com.jayway.jsonpath.internal.path.evaluate.TreeTravelEvaluator;
 import org.junit.Test;
 
 import java.util.List;
@@ -105,7 +106,7 @@ public class ScanPathTokenTest {
     @Test
     public void a_document_can_be_scanned_for_wildcard() {
 
-        List<String> result = PathCompiler.compile("$..[*]").evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
+        List<String> result = new TreeTravelEvaluator(PathCompiler.compile("$..[*]")).evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
 
         assertThat(result).containsOnly(
                 "$['store']",
@@ -156,7 +157,7 @@ public class ScanPathTokenTest {
     @Test
     public void a_document_can_be_scanned_for_wildcard2() {
 
-        List<String> result = PathCompiler.compile("$.store.book[0]..*").evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
+        List<String> result = new TreeTravelEvaluator(PathCompiler.compile("$.store.book[0]..*")).evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
 
         assertThat(result).containsOnly(
                 "$['store']['book'][0]['address']",
@@ -172,7 +173,7 @@ public class ScanPathTokenTest {
     @Test
     public void a_document_can_be_scanned_for_wildcard3() {
 
-        List<String> result = PathCompiler.compile("$.phoneNumbers[0]..*").evaluate(DOCUMENT2, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
+        List<String> result = new TreeTravelEvaluator(PathCompiler.compile("$.phoneNumbers[0]..*")).evaluate(DOCUMENT2, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
 
         assertThat(result).containsOnly(
                 "$['phoneNumbers'][0]['number']",
@@ -183,7 +184,7 @@ public class ScanPathTokenTest {
     @Test
     public void a_document_can_be_scanned_for_predicate_match() {
 
-        List<String> result = PathCompiler.compile("$..[?(@.address.city == 'Stockholm')]").evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
+        List<String> result = new TreeTravelEvaluator(PathCompiler.compile("$..[?(@.address.city == 'Stockholm')]")).evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
 
         assertThat(result).containsOnly(
                 "$['store']['bicycle']",
@@ -194,7 +195,7 @@ public class ScanPathTokenTest {
     @Test
     public void a_document_can_be_scanned_for_existence() {
 
-        List<String> result = PathCompiler.compile("$..[?(@.isbn)]").evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
+        List<String> result = new TreeTravelEvaluator(PathCompiler.compile("$..[?(@.isbn)]")).evaluate(DOCUMENT, DOCUMENT, Configuration.defaultConfiguration()).getPathList();
 
         assertThat(result).containsOnly(
                 "$['store']['book'][2]");

@@ -17,6 +17,7 @@ package com.jayway.jsonpath.internal.path;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.Predicate;
 import com.jayway.jsonpath.internal.Path;
+import com.jayway.jsonpath.internal.path.evaluate.TreeTravelEvaluator;
 import com.jayway.jsonpath.spi.mapper.MappingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,11 +47,11 @@ public class PredicateContextImpl implements Predicate.PredicateContext {
                 logger.debug("Using cached result for root path: " + path.toString());
                 result = documentPathCache.get(path);
             } else {
-                result = path.evaluate(rootDocument, rootDocument, configuration).getValue();
+                result = new TreeTravelEvaluator(path).evaluate(rootDocument, rootDocument, configuration).getValue();
                 documentPathCache.put(path, result);
             }
         } else {
-            result = path.evaluate(contextDocument, rootDocument, configuration).getValue();
+            result = new TreeTravelEvaluator(path).evaluate(contextDocument, rootDocument, configuration).getValue();
         }
         return result;
     }

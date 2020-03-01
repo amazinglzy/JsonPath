@@ -7,6 +7,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.path.PathCompiler;
+import com.jayway.jsonpath.internal.path.evaluate.TreeTravelEvaluator;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
@@ -226,7 +227,7 @@ public class JsonPathTest extends BaseTest {
         assertEquals(JsonPath.read(itemsInStore, "$.[0].[0].author"), "Nigel Rees");
         assertEquals(JsonPath.read(itemsInStore, "$.[0][0].author"), "Nigel Rees");
         */
-        List<String> result = PathCompiler.compile("$.store.*").evaluate(OBJ_DOCUMENT, OBJ_DOCUMENT, Configuration.defaultConfiguration()).getPathList();
+        List<String> result = new TreeTravelEvaluator(PathCompiler.compile("$.store.*")).evaluate(OBJ_DOCUMENT, OBJ_DOCUMENT, Configuration.defaultConfiguration()).getPathList();
 
         Assertions.assertThat(result).containsOnly(
                 "$['store']['bicycle']",
