@@ -34,7 +34,7 @@ public class TreeTravelEvaluator {
         EvaluationContextImpl ctx = new EvaluationContextImpl(this.path, rootDocument, configuration, forUpdate);
         try {
             PathRef op = ctx.forUpdate() ?  PathRef.createRoot(rootDocument) : PathRef.NO_OP;
-            this.path.getRootToken().evaluate("", op, document, ctx);
+            PathTokenEvaluatorFactory.create(this.path.getRootToken()).evaluate("", op, document, ctx);
         } catch (EvaluationAbortException abort){}
 
         return ctx;

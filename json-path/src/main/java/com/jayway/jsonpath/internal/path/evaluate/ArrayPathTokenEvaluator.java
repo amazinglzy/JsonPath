@@ -4,13 +4,14 @@ import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.path.ArrayPathToken;
 import com.jayway.jsonpath.internal.path.EvaluationContextImpl;
 
-public class ArrayPathTokenEvaluator {
+public class ArrayPathTokenEvaluator implements PathTokenEvaluator{
 
     private ArrayPathToken token;
     public ArrayPathTokenEvaluator(ArrayPathToken token) {
         this.token = token;
     }
 
+    @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         if (! this.token.checkArrayModel(currentPath, model, ctx))
             return;

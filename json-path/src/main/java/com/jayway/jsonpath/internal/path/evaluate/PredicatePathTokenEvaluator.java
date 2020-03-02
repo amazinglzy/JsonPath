@@ -10,12 +10,13 @@ import com.jayway.jsonpath.internal.path.PredicatePathToken;
 
 import static java.lang.String.format;
 
-public class PredicatePathTokenEvaluator {
+public class PredicatePathTokenEvaluator implements PathTokenEvaluator {
     private PredicatePathToken token;
     public PredicatePathTokenEvaluator(PredicatePathToken token) {
         this.token = token;
     }
 
+    @Override
     public void evaluate(String currentPath, PathRef ref, Object model, EvaluationContextImpl ctx) {
         if (ctx.jsonProvider().isMap(model)) {
             if (this.accept(model, ctx.rootDocument(), ctx.configuration(), ctx)) {

@@ -8,12 +8,13 @@ import com.jayway.jsonpath.internal.path.EvaluationContextImpl;
 import com.jayway.jsonpath.internal.path.FunctionPathToken;
 
 
-public class FunctionPathTokenEvaluator {
+public class FunctionPathTokenEvaluator implements PathTokenEvaluator {
     private FunctionPathToken token;
     public FunctionPathTokenEvaluator(FunctionPathToken token) {
         this.token = token;
     }
 
+    @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         PathFunction pathFunction = PathFunctionFactory.newFunction(this.token.getFunctionName());
         evaluateParameters(currentPath, parent, model, ctx);

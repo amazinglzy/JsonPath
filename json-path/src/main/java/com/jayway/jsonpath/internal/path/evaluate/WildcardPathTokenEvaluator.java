@@ -8,12 +8,13 @@ import com.jayway.jsonpath.internal.path.WildcardPathToken;
 
 import static java.util.Arrays.asList;
 
-public class WildcardPathTokenEvaluator {
+public class WildcardPathTokenEvaluator implements PathTokenEvaluator {
     private WildcardPathToken token;
     public WildcardPathTokenEvaluator(WildcardPathToken token) {
         this.token = token;
     }
 
+    @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         if (ctx.jsonProvider().isMap(model)) {
             for (String property : ctx.jsonProvider().getPropertyKeys(model)) {

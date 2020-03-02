@@ -10,14 +10,14 @@ import java.util.List;
 
 import static com.jayway.jsonpath.internal.Utils.onlyOneIsTrueNonThrow;
 
-public class PropertyPathTokenEvaluator {
+public class PropertyPathTokenEvaluator implements PathTokenEvaluator {
     private PropertyPathToken token;
 
     public PropertyPathTokenEvaluator(PropertyPathToken token) {
         this.token = token;
     }
 
-
+    @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
         // Can't assert it in ctor because isLeaf() could be changed later on.
         assert onlyOneIsTrueNonThrow(this.token.singlePropertyCase(), this.token.multiPropertyMergeCase(), this.token.multiPropertyIterationCase());
