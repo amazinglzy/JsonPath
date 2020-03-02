@@ -1,4 +1,4 @@
-package com.jayway.jsonpath.internal.path.evaluate;
+package com.jayway.jsonpath.internal.eval.travel;
 
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;

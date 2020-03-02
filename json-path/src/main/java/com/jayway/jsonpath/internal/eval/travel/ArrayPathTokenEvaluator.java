@@ -1,10 +1,10 @@
-package com.jayway.jsonpath.internal.path.evaluate;
+package com.jayway.jsonpath.internal.eval.travel;
 
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.path.ArrayPathToken;
 import com.jayway.jsonpath.internal.path.EvaluationContextImpl;
 
-public class ArrayPathTokenEvaluator implements PathTokenEvaluator{
+public class ArrayPathTokenEvaluator implements PathTokenEvaluator {
 
     private ArrayPathToken token;
     public ArrayPathTokenEvaluator(ArrayPathToken token) {

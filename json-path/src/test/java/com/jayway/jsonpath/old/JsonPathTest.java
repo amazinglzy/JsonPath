@@ -7,7 +7,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.path.PathCompiler;
-import com.jayway.jsonpath.internal.path.evaluate.TreeTravelEvaluator;
+import com.jayway.jsonpath.internal.eval.travel.TreeTravelEvaluator;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 

@@ -15,16 +15,11 @@
 package com.jayway.jsonpath.internal.path;
 
 import com.jayway.jsonpath.InvalidPathException;
-import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.Utils;
-import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluatorFactory;
-import com.jayway.jsonpath.internal.path.evaluate.PropertyPathTokenEvaluator;
+import com.jayway.jsonpath.internal.eval.travel.PathTokenEvaluatorFactory;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.jayway.jsonpath.internal.Utils.onlyOneIsTrueNonThrow;
 
 /**
  *

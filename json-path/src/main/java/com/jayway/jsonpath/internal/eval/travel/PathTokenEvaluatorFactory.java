@@ -1,4 +1,4 @@
-package com.jayway.jsonpath.internal.path.evaluate;
+package com.jayway.jsonpath.internal.eval.travel;
 
 import com.jayway.jsonpath.internal.path.*;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;

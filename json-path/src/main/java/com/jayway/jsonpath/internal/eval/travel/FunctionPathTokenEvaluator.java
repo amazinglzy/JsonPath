@@ -1,4 +1,4 @@
-package com.jayway.jsonpath.internal.path.evaluate;
+package com.jayway.jsonpath.internal.eval.travel;
 
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.function.Parameter;

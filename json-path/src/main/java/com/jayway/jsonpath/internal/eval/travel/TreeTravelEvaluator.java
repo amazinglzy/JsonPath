@@ -1,11 +1,10 @@
-package com.jayway.jsonpath.internal.path.evaluate;
+package com.jayway.jsonpath.internal.eval.travel;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.internal.EvaluationAbortException;
 import com.jayway.jsonpath.internal.EvaluationContext;
 import com.jayway.jsonpath.internal.Path;
 import com.jayway.jsonpath.internal.PathRef;
-import com.jayway.jsonpath.internal.path.CompiledPath;
 import com.jayway.jsonpath.internal.path.EvaluationContextImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

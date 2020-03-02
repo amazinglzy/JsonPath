@@ -16,9 +16,7 @@ package com.jayway.jsonpath.internal.path;
 
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.internal.PathRef;
-import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluator;
-import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluatorFactory;
-import com.jayway.jsonpath.internal.path.evaluate.ScanPathTokenEvaluator;
+import com.jayway.jsonpath.internal.eval.travel.PathTokenEvaluatorFactory;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
 import java.util.Collection;

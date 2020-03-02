@@ -10,7 +10,7 @@ import com.jayway.jsonpath.internal.Path;
 import com.jayway.jsonpath.internal.Utils;
 import com.jayway.jsonpath.internal.path.PathCompiler;
 import com.jayway.jsonpath.internal.path.PredicateContextImpl;
-import com.jayway.jsonpath.internal.path.evaluate.TreeTravelEvaluator;
+import com.jayway.jsonpath.internal.eval.travel.TreeTravelEvaluator;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
