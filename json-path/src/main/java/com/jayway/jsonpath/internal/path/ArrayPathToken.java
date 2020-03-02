@@ -18,6 +18,8 @@ import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.path.evaluate.ArrayPathTokenEvaluator;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluator;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +47,7 @@ public class ArrayPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
-        new ArrayPathTokenEvaluator(this).evaluate(
+        PathTokenEvaluatorFactory.create(this).evaluate(
                 currentPath,
                 parent,
                 model,

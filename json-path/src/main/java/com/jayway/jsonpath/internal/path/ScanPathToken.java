@@ -16,6 +16,8 @@ package com.jayway.jsonpath.internal.path;
 
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.internal.PathRef;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluator;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluatorFactory;
 import com.jayway.jsonpath.internal.path.evaluate.ScanPathTokenEvaluator;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
@@ -31,9 +33,9 @@ public class ScanPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
+        PathTokenEvaluatorFactory.create(this).evaluate(
+            currentPath, parent, model, ctx);
 
-        new ScanPathTokenEvaluator(this).evaluate(
-                currentPath, parent, model, ctx);
     }
 
     public static void walk(PathToken pt, String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx, Predicate predicate) {

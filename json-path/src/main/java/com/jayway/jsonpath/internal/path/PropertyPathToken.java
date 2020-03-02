@@ -18,6 +18,7 @@ import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.Utils;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluatorFactory;
 import com.jayway.jsonpath.internal.path.evaluate.PropertyPathTokenEvaluator;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class PropertyPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
-        new PropertyPathTokenEvaluator(this).evaluate(
+        PathTokenEvaluatorFactory.create(this).evaluate(
                 currentPath, parent, model, ctx);
     }
 

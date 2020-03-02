@@ -5,6 +5,8 @@ import com.jayway.jsonpath.internal.function.Parameter;
 import com.jayway.jsonpath.internal.function.PathFunction;
 import com.jayway.jsonpath.internal.function.PathFunctionFactory;
 import com.jayway.jsonpath.internal.path.evaluate.FunctionPathTokenEvaluator;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluator;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluatorFactory;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class FunctionPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
-        new FunctionPathTokenEvaluator(this).evaluate(
+        PathTokenEvaluatorFactory.create(this).evaluate(
                 currentPath,
                 parent,
                 model,

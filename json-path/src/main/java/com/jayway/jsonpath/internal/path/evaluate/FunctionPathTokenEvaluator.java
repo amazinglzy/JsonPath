@@ -21,7 +21,7 @@ public class FunctionPathTokenEvaluator implements PathTokenEvaluator {
         Object result = pathFunction.invoke(currentPath, parent, model, ctx, this.token.getFunctionParams());
         ctx.addResult(currentPath + "." + this.token.getFunctionName(), parent, result);
         if (!this.token.isLeaf()) {
-            this.token.next().evaluate(currentPath, parent, result, ctx);
+            PathTokenEvaluatorFactory.create(this.token.next()).evaluate(currentPath, parent, result, ctx);
         }
     }
 

@@ -17,6 +17,7 @@ package com.jayway.jsonpath.internal.path;
 import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
+import com.jayway.jsonpath.internal.path.evaluate.PathTokenEvaluatorFactory;
 import com.jayway.jsonpath.internal.path.evaluate.WildcardPathTokenEvaluator;
 
 import static java.util.Arrays.asList;
@@ -31,8 +32,7 @@ public class WildcardPathToken extends PathToken {
 
     @Override
     public void evaluate(String currentPath, PathRef parent, Object model, EvaluationContextImpl ctx) {
-        new WildcardPathTokenEvaluator(this).evaluate(
-                currentPath, parent, model, ctx);
+        PathTokenEvaluatorFactory.create(this).evaluate(currentPath, parent, model, ctx);
     }
 
 
