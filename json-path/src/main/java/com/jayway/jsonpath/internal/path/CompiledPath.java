@@ -42,26 +42,6 @@ public class CompiledPath implements Path {
     }
 
     @Override
-    public EvaluationContext evaluate(Object document, Object rootDocument, Configuration configuration, boolean forUpdate) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Evaluating path: {}", toString());
-        }
-
-        EvaluationContextImpl ctx = new EvaluationContextImpl(this, rootDocument, configuration, forUpdate);
-        try {
-            PathRef op = ctx.forUpdate() ?  PathRef.createRoot(rootDocument) : PathRef.NO_OP;
-            root.evaluate("", op, document, ctx);
-        } catch (EvaluationAbortException abort){};
-
-        return ctx;
-    }
-
-    @Override
-    public EvaluationContext evaluate(Object document, Object rootDocument, Configuration configuration){
-        return evaluate(document, rootDocument, configuration, false);
-    }
-
-    @Override
     public boolean isDefinite() {
         return root.isPathDefinite();
     }
@@ -74,5 +54,10 @@ public class CompiledPath implements Path {
     @Override
     public String toString() {
         return root.toString();
+    }
+
+    @Override
+    public PathToken getRootToken() {
+        return root;
     }
 }
