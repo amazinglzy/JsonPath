@@ -1,21 +1,15 @@
 package com.jayway.jsonpath.internal.index;
 
 public class Node {
-    private String nodeName;
     private Object value;
     private long firstVisit, lastVisit;
     private int level;
 
-    public Node(long firstVisit, long lastVisit, int level, String nodeName, Object value) {
-        this.nodeName = nodeName;
+    public Node(long firstVisit, long lastVisit, int level, Object value) {
         this.value = value;
         this.firstVisit = firstVisit;
         this.lastVisit = lastVisit;
         this.level = level;
-    }
-
-    public String getNodeName() {
-        return nodeName;
     }
 
     public Object getValue() {
@@ -34,4 +28,19 @@ public class Node {
         return level;
     }
 
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public void setFirstVisit(long firstVisit) {
+        this.firstVisit = firstVisit;
+    }
+
+    public void setLastVisit(long lastVisit) {
+        this.lastVisit = lastVisit;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 }
