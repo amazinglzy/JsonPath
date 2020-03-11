@@ -3,9 +3,6 @@ package com.jayway.jsonpath.internal.index;
 import com.jayway.jsonpath.Configuration;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class IndexerTest {
@@ -44,6 +41,33 @@ public class IndexerTest {
         );
         assertThat(indexContext.open(new Long(2)).getFirst()).isEqualToIgnoringNullFields(
                 new ArrayNode(2, 12, 13, 2, 3)
+        );
+    }
+
+    @Test
+    public void testIndexerOrderOfIndexContext() {
+        String str = "{\n" +
+                "    \"a\": {\n" +
+                "        \"a\": {\n" +
+                "            \"b\": \"value\"\n" +
+                "        }\n" +
+                "    },\n" +
+                "    \"b\": 2,\n" +
+                "}";
+        /*
+        $   0   9   0
+        a   1   6   1
+        a   2   5   2
+        b   3   4   3
+        b   7   8   1
+         */
+        Configuration configuration = Configuration.defaultConfiguration();
+        IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
+        assertThat(indexContext.open("a").getFirst()).isEqualToIgnoringNullFields(
+                new ObjectNode("a", 1, 6, 1, null)
+        );
+        assertThat(indexContext.open("a").getLast()).isEqualToIgnoringNullFields(
+                new ObjectNode("a", 2, 5, 2, null)
         );
     }
 }
