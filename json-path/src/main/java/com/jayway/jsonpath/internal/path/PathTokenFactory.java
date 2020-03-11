@@ -34,7 +34,7 @@ public class PathTokenFactory {
         return new WildcardPathToken();
     }
 
-    public static PathToken crateScanToken() {
+    public static PathToken createScanToken() {
         return new ScanPathToken();
     }
 

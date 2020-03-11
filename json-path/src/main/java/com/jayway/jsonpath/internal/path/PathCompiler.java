@@ -152,7 +152,7 @@ public class PathCompiler {
     //
     private boolean readDotToken(PathTokenAppender appender) {
         if (path.currentCharIs(PERIOD) && path.nextCharIs(PERIOD)) {
-            appender.appendPathToken(PathTokenFactory.crateScanToken());
+            appender.appendPathToken(PathTokenFactory.createScanToken());
             path.incrementPosition(2);
         } else if (!path.hasMoreCharacters()) {
             throw new InvalidPathException("Path must not end with a '.");
