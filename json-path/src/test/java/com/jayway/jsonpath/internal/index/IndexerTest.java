@@ -2,6 +2,7 @@ package com.jayway.jsonpath.internal.index;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.internal.index.node.ArrayNode;
+import com.jayway.jsonpath.internal.index.node.NodeIterator;
 import com.jayway.jsonpath.internal.index.node.ObjectNode;
 import org.junit.Test;
 
@@ -35,13 +36,13 @@ public class IndexerTest {
          */
         Configuration configuration = Configuration.defaultConfiguration();
         IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
-        assertThat(indexContext.open(new Long(1)).getFirst()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.open(new Long(1)).next()).isEqualToIgnoringNullFields(
                 new ArrayNode(1, 10, 11, 2, 2)
         );
-        assertThat(indexContext.open("$").getFirst()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.open("$").next()).isEqualToIgnoringNullFields(
                 new ObjectNode("$", 0, 15, 0, null)
         );
-        assertThat(indexContext.open(new Long(2)).getFirst()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.open(new Long(2)).next()).isEqualToIgnoringNullFields(
                 new ArrayNode(2, 12, 13, 2, 3)
         );
     }
@@ -65,10 +66,11 @@ public class IndexerTest {
          */
         Configuration configuration = Configuration.defaultConfiguration();
         IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
-        assertThat(indexContext.open("a").getFirst()).isEqualToIgnoringNullFields(
+        NodeIterator iter = indexContext.open("a");
+        assertThat(iter.next()).isEqualToIgnoringNullFields(
                 new ObjectNode("a", 1, 6, 1, null)
         );
-        assertThat(indexContext.open("a").getLast()).isEqualToIgnoringNullFields(
+        assertThat(iter.next()).isEqualToIgnoringNullFields(
                 new ObjectNode("a", 2, 5, 2, null)
         );
     }
