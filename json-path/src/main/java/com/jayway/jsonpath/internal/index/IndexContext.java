@@ -1,5 +1,7 @@
 package com.jayway.jsonpath.internal.index;
 
+import com.jayway.jsonpath.internal.index.node.Node;
+
 import java.util.LinkedList;
 import java.util.Map;
 

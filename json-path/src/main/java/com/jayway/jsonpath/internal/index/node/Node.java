@@ -1,6 +1,6 @@
-package com.jayway.jsonpath.internal.index;
+package com.jayway.jsonpath.internal.index.node;
 
-public class Node {
+public class Node implements Comparable<Node> {
     private Object value;
     private long firstVisit, lastVisit;
     private int level;
@@ -42,5 +42,13 @@ public class Node {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    @Override
+    public int compareTo(Node o) {
+        if (this.getFirstVisit() != o.getFirstVisit()) {
+            return this.getFirstVisit() < o.getFirstVisit() ? -1: 0;
+        }
+        return 0;
     }
 }

@@ -1,6 +1,9 @@
 package com.jayway.jsonpath.internal.index;
 
 import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.internal.index.node.ArrayNode;
+import com.jayway.jsonpath.internal.index.node.Node;
+import com.jayway.jsonpath.internal.index.node.ObjectNode;
 
 import java.util.HashMap;
 import java.util.LinkedList;

@@ -1,6 +1,6 @@
-package com.jayway.jsonpath.internal.index;
+package com.jayway.jsonpath.internal.index.node;
 
-public class ArrayNode extends Node{
+public class ArrayNode extends Node {
     private long index;
     public ArrayNode(long index, Object value) {
         super(-1, -1, -1, value);

@@ -1,6 +1,8 @@
 package com.jayway.jsonpath.internal.index;
 
 import com.jayway.jsonpath.Configuration;
+import com.jayway.jsonpath.internal.index.node.ArrayNode;
+import com.jayway.jsonpath.internal.index.node.ObjectNode;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

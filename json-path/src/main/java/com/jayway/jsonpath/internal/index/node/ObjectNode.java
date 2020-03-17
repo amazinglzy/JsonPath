@@ -1,4 +1,6 @@
-package com.jayway.jsonpath.internal.index;
+package com.jayway.jsonpath.internal.index.node;
+
+import com.jayway.jsonpath.internal.index.node.Node;
 
 public class ObjectNode extends Node {
     private String nodeName;
