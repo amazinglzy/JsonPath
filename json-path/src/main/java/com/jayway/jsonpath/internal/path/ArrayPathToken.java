@@ -17,6 +17,7 @@ package com.jayway.jsonpath.internal.path;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
+import com.jayway.jsonpath.internal.eval.travel.EvaluationContextImpl;
 import com.jayway.jsonpath.internal.eval.travel.PathTokenEvaluatorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

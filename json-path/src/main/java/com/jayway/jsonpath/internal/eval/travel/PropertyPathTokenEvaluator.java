@@ -2,7 +2,6 @@ package com.jayway.jsonpath.internal.eval.travel;
 
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
-import com.jayway.jsonpath.internal.path.EvaluationContextImpl;
 import com.jayway.jsonpath.internal.path.PropertyPathToken;
 
 import java.util.ArrayList;

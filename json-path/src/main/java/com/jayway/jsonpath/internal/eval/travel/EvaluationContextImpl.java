@@ -12,7 +12,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.jayway.jsonpath.internal.path;
+package com.jayway.jsonpath.internal.eval.travel;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.EvaluationListener;

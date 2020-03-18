@@ -4,7 +4,6 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.Predicate;
 import com.jayway.jsonpath.internal.PathRef;
-import com.jayway.jsonpath.internal.path.EvaluationContextImpl;
 import com.jayway.jsonpath.internal.path.PredicateContextImpl;
 import com.jayway.jsonpath.internal.path.PredicatePathToken;
 

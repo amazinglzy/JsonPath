@@ -4,7 +4,6 @@ import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.function.Parameter;
 import com.jayway.jsonpath.internal.function.PathFunction;
 import com.jayway.jsonpath.internal.function.PathFunctionFactory;
-import com.jayway.jsonpath.internal.path.EvaluationContextImpl;
 import com.jayway.jsonpath.internal.path.FunctionPathToken;
 
 

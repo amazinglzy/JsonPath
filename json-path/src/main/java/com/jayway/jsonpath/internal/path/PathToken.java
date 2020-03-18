@@ -18,6 +18,7 @@ import com.jayway.jsonpath.Option;
 import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.Utils;
+import com.jayway.jsonpath.internal.eval.travel.EvaluationContextImpl;
 import com.jayway.jsonpath.internal.function.PathFunction;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
