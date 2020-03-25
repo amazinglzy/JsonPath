@@ -1,10 +1,14 @@
 package com.jayway.jsonpath.internal.index;
 
+import com.jayway.jsonpath.internal.index.node.CombinedNodeIterator;
 import com.jayway.jsonpath.internal.index.node.Node;
 import com.jayway.jsonpath.internal.index.node.NodeIterator;
 import com.jayway.jsonpath.internal.index.node.SingleNodeIterator;
+import com.jayway.jsonpath.internal.path.ArrayIndexOperation;
+import com.jayway.jsonpath.internal.path.ArraySliceOperation;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class IndexContext {
@@ -16,15 +20,60 @@ public class IndexContext {
         this.arraysPartitions = arrayPartitions;
     }
 
-    public NodeIterator open(String objectLabel) {
+    public NodeIterator openObject(String objectLabel) {
         return getObjectOrEmptyStream(objectLabel);
     }
 
-    public NodeIterator open(Long arrayIndex) {
+    public NodeIterator openArray(Long arrayIndex) {
         return getArrayOrEmptyStream(arrayIndex);
     }
 
+    public NodeIterator openObject(List<String> objectLabels) {
+        if (objectLabels.size() == 1) return getObjectOrEmptyStream(objectLabels.get(0));
+        NodeIterator ret = new CombinedNodeIterator(
+                getObjectOrEmptyStream(objectLabels.get(0)),
+                getObjectOrEmptyStream(objectLabels.get(1))
+        );
+        for (int i = 2; i < objectLabels.size(); i++) {
+            ret = new CombinedNodeIterator(
+                    getObjectOrEmptyStream(objectLabels.get(i)),
+                    ret
+            );
+        }
+        return ret;
+    }
 
+    public NodeIterator openArray(ArrayIndexOperation operation) {
+        if (operation.isSingleIndexOperation()) return getArrayOrEmptyStream(new Long(operation.indexes().get(0)));
+        NodeIterator ret = new CombinedNodeIterator(
+                getArrayOrEmptyStream(new Long(operation.indexes().get(0))),
+                getArrayOrEmptyStream(new Long(operation.indexes().get(1)))
+        );
+        for (int i = 2; i < operation.indexes().size(); i++) {
+            ret = new CombinedNodeIterator(
+                    getArrayOrEmptyStream(new Long(operation.indexes().get(i))),
+                    ret
+            );
+        }
+        return ret;
+    }
+
+    public NodeIterator openArray(ArraySliceOperation operation) {
+        NodeIterator ret = null;
+        for (Long idx: this.arraysPartitions.keySet()) {
+            if (operation.from() <= idx && idx <= operation.to()) {
+                if (ret == null) ret = getArrayOrEmptyStream(idx);
+                else {
+                    ret = new CombinedNodeIterator(
+                            getArrayOrEmptyStream(idx),
+                            ret
+                    );
+                }
+            }
+        }
+        if (ret == null) return new SingleNodeIterator(new LinkedList<Node>());
+        else return ret;
+    }
     private NodeIterator getObjectOrEmptyStream(String objectLabel) {
         LinkedList<Node> ret = this.objectsPartitions.get(objectLabel);
         if (ret == null) ret = new LinkedList<Node>();

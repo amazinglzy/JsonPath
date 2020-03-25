@@ -36,13 +36,13 @@ public class IndexerTest {
          */
         Configuration configuration = Configuration.defaultConfiguration();
         IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
-        assertThat(indexContext.open(new Long(1)).next()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.openArray(new Long(1)).next()).isEqualToIgnoringNullFields(
                 new ArrayNode(1, 10, 11, 2, 2)
         );
-        assertThat(indexContext.open("$").next()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.openObject("$").next()).isEqualToIgnoringNullFields(
                 new ObjectNode("$", 0, 15, 0, null)
         );
-        assertThat(indexContext.open(new Long(2)).next()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.openArray(new Long(2)).next()).isEqualToIgnoringNullFields(
                 new ArrayNode(2, 12, 13, 2, 3)
         );
     }
@@ -66,7 +66,7 @@ public class IndexerTest {
          */
         Configuration configuration = Configuration.defaultConfiguration();
         IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
-        NodeIterator iter = indexContext.open("a");
+        NodeIterator iter = indexContext.openObject("a");
         assertThat(iter.next()).isEqualToIgnoringNullFields(
                 new ObjectNode("a", 1, 6, 1, null)
         );

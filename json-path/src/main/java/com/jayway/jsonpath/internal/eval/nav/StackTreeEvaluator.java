@@ -23,19 +23,11 @@ public class StackTreeEvaluator implements ReadEvaluator {
     @Override
     public EvaluationContext evaluate(Object document, Object rootDocument, Configuration configuration) {
         IndexContext indexContext = Indexer.index(document, configuration);
-        EvaluationContextImpl ret = new EvaluationContextImpl(this.path, rootDocument, configuration, false);
+        EvaluationReadContext ret = new EvaluationReadContext(this.path, rootDocument, configuration);
+//        ResultIterator iter = new ResultIterator(this.path.getRootToken(), indexContext);
+//        for (; iter.hasNext(); iter.next()) {
+//            ret.addResult(iter.getPath(), iter.getValue());
+//        }
         return ret;
-    }
-
-
-    private void evaluatePath(PathToken currentToken, PathToken parentToken, IndexContext indexContext, EvaluationContextImpl ctx) {
-        if (currentToken instanceof ArrayPathToken) {
-        } else if (currentToken instanceof FunctionPathToken) {
-        } else if (currentToken instanceof PredicatePathToken) {
-        } else if (currentToken instanceof RootPathToken) {
-        } else if (currentToken instanceof WildcardPathToken) {
-        } else if (currentToken instanceof ScanPathToken) {
-        } else if (currentToken instanceof PropertyPathToken) {
-        }
     }
 }

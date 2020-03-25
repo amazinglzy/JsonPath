@@ -14,4 +14,8 @@ public class ObjectNode extends Node {
         super(firstVisit, lastVisit, level, value);
         this.nodeName = nodeName;
     }
+
+    public String getNodeName() {
+        return this.nodeName;
+    }
 }
