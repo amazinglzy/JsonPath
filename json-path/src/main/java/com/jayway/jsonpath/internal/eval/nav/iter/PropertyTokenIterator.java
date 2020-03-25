@@ -76,7 +76,7 @@ public class PropertyTokenIterator implements ResultIterator {
             this.parIter.next();
             this.initCurrentNodeIter();
         }
-        return this.parIter.getPath() + "." + this.currentNodeIter.peek().getValue();
+        return this.currentNodeIter.peek().getValue();
     }
 
     @Override
