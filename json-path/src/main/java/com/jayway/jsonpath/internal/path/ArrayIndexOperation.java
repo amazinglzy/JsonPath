@@ -38,6 +38,7 @@ public class ArrayIndexOperation {
         return sb.toString();
     }
 
+    // "0,1"
     public static ArrayIndexOperation parse(String operation) {
         //check valid chars
         for (int i = 0; i < operation.length(); i++) {

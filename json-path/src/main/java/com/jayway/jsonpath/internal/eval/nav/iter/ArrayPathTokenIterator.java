@@ -1,40 +1,29 @@
 package com.jayway.jsonpath.internal.eval.nav.iter;
 
 import com.jayway.jsonpath.internal.eval.nav.ResultIterator;
+import com.jayway.jsonpath.internal.index.IndexContext;
+import com.jayway.jsonpath.internal.index.node.ArrayNode;
 import com.jayway.jsonpath.internal.index.node.Node;
+import com.jayway.jsonpath.internal.index.node.NodeIterator;
+import com.jayway.jsonpath.internal.index.node.ObjectNode;
 import com.jayway.jsonpath.internal.path.ArrayPathToken;
 
-// TODO
-public class ArrayPathTokenIterator implements ResultIterator {
-    private ResultIterator parIter ;
-    private ArrayPathToken token;
+public class ArrayPathTokenIterator extends TokenIterator {
 
-    public ArrayPathTokenIterator(ResultIterator parIter, ArrayPathToken token) {
-        this.parIter = parIter;
-        this.token = token;
+    public ArrayPathTokenIterator(ResultIterator parIter, ArrayPathToken token, IndexContext indexContext) {
+        super(parIter, token, indexContext);
     }
 
     @Override
-    public void next() {
+    protected NodeIterator openCorrespondNodeIterator() {
+        if (((ArrayPathToken)this.token).getArrayIndexOperation() != null)
+            return this.indexContext.openArray(((ArrayPathToken)token).getArrayIndexOperation());
+        else
+            return this.indexContext.openArray(((ArrayPathToken)token).getArraySliceOperation());
     }
 
     @Override
-    public boolean hasNext() {
-        return false;
-    }
-
-    @Override
-    public String getPath() {
-        return null;
-    }
-
-    @Override
-    public Object getValue() {
-        return null;
-    }
-
-    @Override
-    public Node getNode() {
-        return null;
+    protected String getPathFragment(Node node) {
+        return "." + String.valueOf(((ArrayNode)this.currentNodeIter.peek()).getIndex());
     }
 }

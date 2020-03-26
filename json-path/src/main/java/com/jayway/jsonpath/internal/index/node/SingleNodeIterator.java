@@ -20,8 +20,8 @@ public class SingleNodeIterator implements NodeIterator {
     }
 
     @Override
-    public Node next() {
-        return this.iter.next();
+    public void next() {
+        this.iter.next();
     }
 
     @Override

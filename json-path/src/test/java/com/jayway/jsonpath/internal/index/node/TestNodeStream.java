@@ -15,8 +15,10 @@ public class TestNodeStream {
         }};
 
         NodeIterator iter = new SingleNodeIterator(l);
-        assertThat(iter.next()).isEqualByComparingTo(new ArrayNode(0, 0, 10, 1, null));
-        assertThat(iter.next()).isEqualByComparingTo(new ArrayNode(0, 1, 5, 2, null));
+        iter.next();
+        assertThat(iter.peek()).isEqualByComparingTo(new ArrayNode(0, 0, 10, 1, null));
+        iter.next();
+        assertThat(iter.peek()).isEqualByComparingTo(new ArrayNode(0, 1, 5, 2, null));
         assertThat(iter.hasNext()).isEqualTo(false);
     }
 
@@ -31,11 +33,15 @@ public class TestNodeStream {
             add(new ArrayNode(1, 7, 8, 2, null));
         }};
         NodeIterator iter = new CombinedNodeIterator(new SingleNodeIterator(l1), new SingleNodeIterator(l2));
-        assertThat(iter.next()).isEqualByComparingTo(new ArrayNode(0, 0, 10, 1, null));
-        assertThat(iter.next()).isEqualByComparingTo(new ArrayNode(0, 1, 5, 2, null));
-        assertThat(iter.next()).isEqualByComparingTo(new ArrayNode(1, 6, 7, 2, null));
+        iter.next();
+        assertThat(iter.peek()).isEqualByComparingTo(new ArrayNode(0, 0, 10, 1, null));
+        iter.next();
+        assertThat(iter.peek()).isEqualByComparingTo(new ArrayNode(0, 1, 5, 2, null));
+        iter.next();
+        assertThat(iter.peek()).isEqualByComparingTo(new ArrayNode(1, 6, 7, 2, null));
         assertThat(iter.hasNext()).isEqualTo(true);
-        assertThat(iter.next()).isEqualByComparingTo(new ArrayNode(1, 7, 8, 2, null));
+        iter.next();
+        assertThat(iter.peek()).isEqualByComparingTo(new ArrayNode(1, 7, 8, 2, null));
         assertThat(iter.hasNext()).isEqualTo(false);
     }
 }

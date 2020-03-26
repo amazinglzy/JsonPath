@@ -47,7 +47,7 @@ public class Node implements Comparable<Node> {
     @Override
     public int compareTo(Node o) {
         if (this.getFirstVisit() != o.getFirstVisit()) {
-            return this.getFirstVisit() < o.getFirstVisit() ? -1: 0;
+            return this.getFirstVisit() < o.getFirstVisit() ? -1: 1;
         }
         return 0;
     }

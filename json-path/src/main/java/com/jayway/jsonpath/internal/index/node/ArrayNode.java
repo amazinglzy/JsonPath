@@ -11,4 +11,8 @@ public class ArrayNode extends Node {
         super(firstVisit, lastVisit, level, value);
         this.index = index;
     }
+
+    public long getIndex() {
+        return this.index;
+    }
 }

@@ -10,23 +10,32 @@ public class CombinedNodeIterator implements NodeIterator {
 
     @Override
     public Node peek() {
-        Node n1 = this.iter1.peek();
-        Node n2 = this.iter2.peek();
-        if (n1.compareTo(n2) < 0) return n1;
-        else return n2;
-    }
-
-    @Override
-    public Node next() {
         if (this.iter1.hasNext() && this.iter2.hasNext()) {
             Node n1 = this.iter1.peek();
             Node n2 = this.iter2.peek();
-            if (n1.compareTo(n2) < 0) return this.iter1.next();
-            else return this.iter2.next();
+            if (n1.compareTo(n2) < 0) return n1;
+            else return n2;
         } else if (this.iter1.hasNext()) {
-            return this.iter1.next();
+            return this.iter1.peek();
         } else {
-            return this.iter2.next();
+            return this.iter2.peek();
+        }
+    }
+
+    @Override
+    public void next() {
+        if (this.iter1.hasNext() && this.iter2.hasNext()) {
+            Node n1 = this.iter1.peek();
+            Node n2 = this.iter2.peek();
+            if (n1.compareTo(n2) < 0) this.iter1.next();
+            else this.iter2.next();
+            return; // make sure the next if condition will not be verified
+        } else if (this.iter1.hasNext()) {
+            this.iter1.next();
+            return;
+        } else {
+            this.iter2.next();
+            return;
         }
     }
 
