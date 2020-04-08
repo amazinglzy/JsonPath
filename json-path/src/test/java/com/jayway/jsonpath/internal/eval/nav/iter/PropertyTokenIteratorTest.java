@@ -30,6 +30,8 @@ public class PropertyTokenIteratorTest {
         PropertyTokenIterator iter = new PropertyTokenIterator(parIter, token, indexContext);
 
         assertThat(iter.getValue().toString()).isEqualTo("Alice");
+        assertThat(iter.hasNext()).isEqualTo(true);
+        iter.next();
         assertThat(iter.hasNext()).isEqualTo(false);
     }
 }

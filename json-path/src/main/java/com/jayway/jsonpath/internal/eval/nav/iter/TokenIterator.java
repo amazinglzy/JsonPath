@@ -4,9 +4,7 @@ import com.jayway.jsonpath.internal.eval.nav.ResultIterator;
 import com.jayway.jsonpath.internal.index.IndexContext;
 import com.jayway.jsonpath.internal.index.node.Node;
 import com.jayway.jsonpath.internal.index.node.NodeIterator;
-import com.jayway.jsonpath.internal.index.node.ObjectNode;
 import com.jayway.jsonpath.internal.path.PathToken;
-import com.jayway.jsonpath.internal.path.PropertyPathToken;
 
 public abstract class TokenIterator implements ResultIterator {
 
@@ -31,66 +29,55 @@ public abstract class TokenIterator implements ResultIterator {
 
     protected boolean adjust() {
         while (true) {
-            if (this.parIter.getNode().getFirstVisit() < this.currentNodeIter.peek().getFirstVisit()
-                    && this.currentNodeIter.peek().getLastVisit() < this.parIter.getNode().getLastVisit()
-                    && this.currentNodeIter.peek().getLevel() == this.parIter.getNode().getLevel() + 1) {
-                return true;
+            if (!this.parIter.hasNext()) return false;
+            if (!this.currentNodeIter.hasNext() || this.parIter.getNode().getLastVisit() < this.currentNodeIter.read().getFirstVisit()) {
+                this.parIter.next();
+                if (!this.parIter.hasNext()) return false;
+                this.initCurrentNodeIter();
             }
-            if (this.parIter.hasNext()) this.parIter.next();
-            else return false;
-            if (this.parIter.getNode().getFirstVisit() > this.currentNodeIter.peek().getLastVisit()) return false;
+
+            while (this.currentNodeIter.hasNext()) {
+                if (this.parIter.getNode().getFirstVisit() < this.currentNodeIter.read().getFirstVisit()
+                        && this.currentNodeIter.read().getLastVisit() < this.parIter.getNode().getLastVisit()
+                        && this.currentNodeIter.read().getLevel() == this.parIter.getNode().getLevel() + 1) {
+                    return true;
+                } else if (this.parIter.getNode().getLastVisit() < this.currentNodeIter.read().getFirstVisit()) {
+                    break;
+                } else {
+                    this.currentNodeIter.next();
+                }
+            }
         }
     }
 
     @Override
     public void next() {
-        if (adjust()) {
-            this.currentNodeIter.next();
-        } else {
-            this.parIter.next();
-            this.initCurrentNodeIter();
-        }
+        adjust();
+        this.currentNodeIter.next();
     }
 
     @Override
     public boolean hasNext() {
-        while (!adjust()) {
-            if (this.parIter.hasNext()) {
-                this.parIter.next();
-                this.initCurrentNodeIter();
-            } else {
-                return false;
-            }
-        }
-        return false;
+        return adjust();
     }
 
     @Override
     public String getPath() {
-        while (!adjust()) {
-            this.parIter.next();
-            this.initCurrentNodeIter();
-        }
-        return this.parIter.getPath() + getPathFragment(this.currentNodeIter.peek());
+        adjust();
+        return this.parIter.getPath() + getPathFragment(this.currentNodeIter.read());
     }
 
     protected abstract String getPathFragment(Node node);
 
     @Override
     public Object getValue() {
-        while (!adjust()) {
-            this.parIter.next();
-            this.initCurrentNodeIter();
-        }
-        return this.currentNodeIter.peek().getValue();
+        adjust();
+        return this.currentNodeIter.read().getValue();
     }
 
     @Override
     public Node getNode() {
-        while (!adjust()) {
-            this.parIter.next();
-            this.initCurrentNodeIter();
-        }
-        return this.currentNodeIter.peek();
+        adjust();
+        return this.currentNodeIter.read();
     }
 }

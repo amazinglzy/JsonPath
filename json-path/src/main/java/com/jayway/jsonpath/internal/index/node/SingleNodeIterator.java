@@ -13,7 +13,7 @@ public class SingleNodeIterator implements NodeIterator {
     }
 
     @Override
-    public Node peek() {
+    public Node read() {
         Node ret = this.iter.next();
         this.iter.previous();
         return ret;

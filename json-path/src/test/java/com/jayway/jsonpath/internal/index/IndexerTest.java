@@ -37,13 +37,13 @@ public class IndexerTest {
          */
         Configuration configuration = Configuration.defaultConfiguration();
         IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
-        assertThat(indexContext.openArray(new Long(1)).peek()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.openArray(new Long(1)).read()).isEqualToIgnoringNullFields(
                 new ArrayNode(1, 10, 11, 2, 2)
         );
-        assertThat(indexContext.openObject("$").peek()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.openObject("$").read()).isEqualToIgnoringNullFields(
                 new ObjectNode("$", 0, 15, 0, null)
         );
-        assertThat(indexContext.openArray(new Long(2)).peek()).isEqualToIgnoringNullFields(
+        assertThat(indexContext.openArray(new Long(2)).read()).isEqualToIgnoringNullFields(
                 new ArrayNode(2, 12, 13, 2, 3)
         );
     }
@@ -68,11 +68,11 @@ public class IndexerTest {
         Configuration configuration = Configuration.defaultConfiguration();
         IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
         NodeIterator iter = indexContext.openObject("a");
-        assertThat(iter.peek()).isEqualToIgnoringNullFields(
+        assertThat(iter.read()).isEqualToIgnoringNullFields(
                 new ObjectNode("a", 1, 6, 1, null)
         );
         iter.next();
-        assertThat(iter.peek()).isEqualToIgnoringNullFields(
+        assertThat(iter.read()).isEqualToIgnoringNullFields(
                 new ObjectNode("a", 2, 5, 2, null)
         );
     }
@@ -106,12 +106,12 @@ public class IndexerTest {
         IndexContext indexContext = Indexer.index(configuration.jsonProvider().parse(str), configuration);
         ArrayIndexOperation operation = ArrayIndexOperation.parse("0,1");
         NodeIterator iter = indexContext.openArray(operation);
-        assertThat(iter.peek()).isEqualToIgnoringNullFields(
+        assertThat(iter.read()).isEqualToIgnoringNullFields(
                 new ArrayNode(0, 8, 9, 2, null)
         );
         assertThat(iter.hasNext());
         iter.next();
-        assertThat(iter.peek()).isEqualToIgnoringNullFields(
+        assertThat(iter.read()).isEqualToIgnoringNullFields(
                 new ArrayNode(1, 10, 11, 2, null)
         );
     }

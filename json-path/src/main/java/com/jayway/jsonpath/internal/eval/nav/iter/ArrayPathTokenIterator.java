@@ -5,7 +5,6 @@ import com.jayway.jsonpath.internal.index.IndexContext;
 import com.jayway.jsonpath.internal.index.node.ArrayNode;
 import com.jayway.jsonpath.internal.index.node.Node;
 import com.jayway.jsonpath.internal.index.node.NodeIterator;
-import com.jayway.jsonpath.internal.index.node.ObjectNode;
 import com.jayway.jsonpath.internal.path.ArrayPathToken;
 
 public class ArrayPathTokenIterator extends TokenIterator {
@@ -24,6 +23,6 @@ public class ArrayPathTokenIterator extends TokenIterator {
 
     @Override
     protected String getPathFragment(Node node) {
-        return "." + String.valueOf(((ArrayNode)this.currentNodeIter.peek()).getIndex());
+        return "." + String.valueOf(((ArrayNode)this.currentNodeIter.read()).getIndex());
     }
 }

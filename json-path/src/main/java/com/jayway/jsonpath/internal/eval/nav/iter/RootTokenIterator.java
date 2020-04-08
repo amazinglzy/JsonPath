@@ -26,7 +26,7 @@ public class RootTokenIterator implements ResultIterator {
 
     @Override
     public Object getValue() {
-        return this.iter.peek().getValue();
+        return this.iter.read().getValue();
     }
 
     @Override
@@ -36,6 +36,6 @@ public class RootTokenIterator implements ResultIterator {
 
     @Override
     public Node getNode() {
-        return this.iter.peek();
+        return this.iter.read();
     }
 }
