@@ -20,6 +20,19 @@ public class IndexContext {
         this.arraysPartitions = arrayPartitions;
     }
 
+    public NodeIterator openAll() {
+        NodeIterator iter = null;
+        for (String label: this.objectsPartitions.keySet()) {
+            if (iter == null) iter = getObjectOrEmptyStream(label);
+            else iter = new CombinedNodeIterator(iter, getObjectOrEmptyStream(label));
+        }
+        for (Long idx: this.arraysPartitions.keySet()) {
+            if (iter == null) iter = getArrayOrEmptyStream(idx);
+            else iter = new CombinedNodeIterator(iter, getArrayOrEmptyStream(idx));
+        }
+        return iter;
+    }
+
     public NodeIterator openObject(String objectLabel) {
         return getObjectOrEmptyStream(objectLabel);
     }
