@@ -1,6 +1,10 @@
 package com.jayway.jsonpath.function;
 
+import com.jayway.jsonpath.internal.Path;
+import com.jayway.jsonpath.internal.path.PathCompiler;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 
@@ -42,5 +46,12 @@ public class ProfileTest {
                 });
         System.out.print("Total Time for goessner.json(ms): ");
         profile.produce();
+    }
+
+    @Test
+    public void testSample() {
+        String pathStr = "$.store.book[?(@.category == 'fiction')].title";
+        Path path = PathCompiler.compile(pathStr);
+        assertThat(path.isRootPath()).isTrue();
     }
 }
