@@ -1,6 +1,6 @@
 package com.jayway.jsonpath.old.internal;
 
-import com.jayway.jsonpath.internal.eval.travel.TreeTravelEvaluator;
+import com.jayway.jsonpath.internal.plan.travel.TreeTravelEvaluator;
 import org.junit.Test;
 
 import java.util.List;

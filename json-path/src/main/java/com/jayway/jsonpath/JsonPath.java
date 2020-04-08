@@ -21,7 +21,7 @@ import com.jayway.jsonpath.internal.Path;
 import com.jayway.jsonpath.internal.PathRef;
 import com.jayway.jsonpath.internal.Utils;
 import com.jayway.jsonpath.internal.path.PathCompiler;
-import com.jayway.jsonpath.internal.eval.travel.TreeTravelEvaluator;
+import com.jayway.jsonpath.internal.plan.travel.TreeTravelEvaluator;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 
 import java.io.File;

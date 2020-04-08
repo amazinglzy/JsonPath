@@ -18,8 +18,8 @@ import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.Predicate;
 import com.jayway.jsonpath.internal.PathRef;
-import com.jayway.jsonpath.internal.eval.travel.EvaluationContextImpl;
-import com.jayway.jsonpath.internal.eval.travel.PathTokenEvaluatorFactory;
+import com.jayway.jsonpath.internal.plan.travel.EvaluationContextImpl;
+import com.jayway.jsonpath.internal.plan.travel.PathTokenEvaluatorFactory;
 
 import java.util.Collection;
 
