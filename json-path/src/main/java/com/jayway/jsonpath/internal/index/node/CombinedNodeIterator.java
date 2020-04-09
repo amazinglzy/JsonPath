@@ -43,4 +43,9 @@ public class CombinedNodeIterator implements NodeIterator {
     public boolean hasNext() {
         return (this.iter1.hasNext() || this.iter2.hasNext());
     }
+
+    @Override
+    public NodeIterator cloneCurrentIterator() {
+        return new CombinedNodeIterator(this.iter1.cloneCurrentIterator(), this.iter2.cloneCurrentIterator());
+    }
 }
