@@ -50,7 +50,13 @@ public class CombinedNodeIteratorTest {
         assertThat(iter.hasNext()).isTrue();
         assertThat(iter.read()).isEqualToIgnoringNullFields(new ArrayNode(0, 1, 5, 2, null));
 
-
         assertThat(iterCopy.read()).isEqualToIgnoringNullFields(new ArrayNode(0, 0, 10, 1, null));
+
+        assertThat(iter.hasNext()); iter.next();
+        assertThat(iter.hasNext()); iter.next();
+        assertThat(iterCopy.read()).isEqualToIgnoringNullFields(new ArrayNode(0, 0, 10, 1, null));
+
+        assertThat(iterCopy.hasNext()); iterCopy.next();
+        assertThat(iterCopy.read()).isEqualToIgnoringNullFields(new ArrayNode(0, 1, 5, 2, null));
     }
 }

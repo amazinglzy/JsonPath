@@ -73,20 +73,23 @@ public class IndexContext {
 
     public NodeIterator openArray(ArraySliceOperation operation) {
         NodeIterator ret = null;
+        Long left = 0L;
+        if (operation.from() != null) left = new Long(operation.from());
         for (Long idx: this.arraysPartitions.keySet()) {
-            if (operation.from() <= idx && idx <= operation.to()) {
-                if (ret == null) ret = getArrayOrEmptyStream(idx);
-                else {
-                    ret = new CombinedNodeIterator(
-                            getArrayOrEmptyStream(idx),
-                            ret
-                    );
-                }
+            if (idx < left) continue;
+            if (operation.to() != null && idx >= operation.to()) break;
+            if (ret == null) ret = getArrayOrEmptyStream(idx);
+            else {
+                ret = new CombinedNodeIterator(
+                        getArrayOrEmptyStream(idx),
+                        ret
+                );
             }
         }
         if (ret == null) return new SingleNodeIterator(new LinkedList<Node>());
         else return ret;
     }
+
     private NodeIterator getObjectOrEmptyStream(String objectLabel) {
         LinkedList<Node> ret = this.objectsPartitions.get(objectLabel);
         if (ret == null) ret = new LinkedList<Node>();
